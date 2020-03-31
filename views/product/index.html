@@ -5,7 +5,9 @@
             <h4>Products</h4>
         </li>
         {{range $product := .products}}
-        <li class="collection-item">{{$product}}</li>
+        <li class="collection-item">
+            <a href="/product/{{$product.Id}}">{{$product.Name}}</p>
+        </li>
         {{end}}
     </ul>
 

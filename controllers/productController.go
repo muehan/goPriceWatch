@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"goPriceWatch/database"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	"fmt"
 )
 
@@ -10,7 +12,14 @@ type ProductController struct {
 }
 
 func (c *ProductController) GetProducts() {
-	c.Data["products"] = []string{"some link", "someotherlink", "morelinks"}
+	orm.Debug = true
+	o := orm.NewOrm()
+
+	var products []*database.Product
+	num, err := o.QueryTable("product").All(&products)
+	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+
+	c.Data["products"] = products
 	
 	c.TplName = "product/index.html"
 	c.Layout = "_layout.html"

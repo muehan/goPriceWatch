@@ -4,3 +4,5 @@ shorturl/shorturl
 todo/todo
 *.exe
 *.exe~
+
+config.json
