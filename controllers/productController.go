@@ -28,8 +28,23 @@ func (c *ProductController) GetProducts() {
 // @router /product/:id
 func (c *ProductController) Details() {
 	var id = c.Ctx.Input.Param(":id")
-	fmt.Println("details: ",id)
-	c.Data["id"] = id
+
+	var product database.Product
+	var prices []*database.Price
+
+	orm.Debug = true
+	o := orm.NewOrm()
+
+	num1, err := o.QueryTable("product").Filter("Id", id).All(&product)
+	fmt.Printf("Returned Rows Num: %s, %s", num1, err)
+	fmt.Printf("Found product: %s", product)
+
+	
+	num2, err := o.QueryTable("price").Filter("productid", id).All(&prices)
+	fmt.Printf("Returned Rows Num: %s, %s", num2, err)
+
+	c.Data["product"] = product
+	c.Data["prices"] = prices
 
 	c.TplName = "product/details.html"
 	c.Layout = "_layout.html"
