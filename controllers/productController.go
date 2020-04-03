@@ -51,8 +51,8 @@ func (c *ProductController) Details() {
 		data = append(data, price.Price)
 	}
 
-	jsonDates := getJsonForString(dates)	
-	jsonData := getJsonForFloat(data)
+	jsonDates := getJsonFor(dates)	
+	jsonData := getJsonFor(data)
 
 	c.Data["product"] = product
 	c.Data["prices"] = prices
@@ -63,21 +63,10 @@ func (c *ProductController) Details() {
 	c.Layout = "_layout.html"
 }
 
-func getJsonForString(list []string) string {
-	fmt.Println(list)
+func getJsonFor(object interface{}) string {
+	fmt.Println(object)
 	var jsonData []byte
-	jsonData, err := json.Marshal(list)
-	if err != nil {
-    	fmt.Println(err)
-	}
-
-	return string(jsonData)
-}
-
-func getJsonForFloat(list []float64) string {
-	fmt.Println(list)
-	var jsonData []byte
-	jsonData, err := json.Marshal(list)
+	jsonData, err := json.Marshal(object)
 	if err != nil {
     	fmt.Println(err)
 	}
