@@ -39,14 +39,20 @@ func (c *ProductController) Details() {
 	o := orm.NewOrm()
 
 	num1, err := o.QueryTable("product").Filter("Id", id).All(&product)
-	fmt.Printf("Returned Rows Num: %s, %s", num1, err)
+	fmt.Println("Returned Rows Num: %s, %s", num1, err)
 	
 	num2, err := o.QueryTable("price").Filter("productid", id).All(&prices)
-	fmt.Printf("Returned Rows Num: %s, %s", num2, err)
+	fmt.Println("Returned Rows Num: %s, %s", num2, err)
+
+	var max float64
+	err = o.Raw("SELECT max(price) FROM price where productid = ?", id).QueryRow(&max)
+
+	var min float64
+	err = o.Raw("SELECT min(price) FROM price where productid = ?", id).QueryRow(&min)
 
 	for _, price := range prices {
 		date := price.Date.Format("2006-01-02")
-		fmt.Println(date);
+		// fmt.Println(date);
 		dates = append(dates, date)
 		data = append(data, price.Price)
 	}
@@ -56,6 +62,8 @@ func (c *ProductController) Details() {
 
 	c.Data["product"] = product
 	c.Data["prices"] = prices
+	c.Data["max"] = max
+	c.Data["min"] = min
 	c.Data["dates"] = jsonDates
 	c.Data["data"] = jsonData
 
@@ -64,7 +72,7 @@ func (c *ProductController) Details() {
 }
 
 func getJsonFor(object interface{}) string {
-	fmt.Println(object)
+	// fmt.Println(object)
 	var jsonData []byte
 	jsonData, err := json.Marshal(object)
 	if err != nil {
