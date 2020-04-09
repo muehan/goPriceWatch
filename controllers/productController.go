@@ -4,7 +4,6 @@ import (
 	"goPriceWatch/database"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"encoding/json"
 	"fmt"
 )
 
@@ -69,15 +68,4 @@ func (c *ProductController) Details() {
 
 	c.TplName = "product/details.html"
 	c.Layout = "_layout.html"
-}
-
-func getJsonFor(object interface{}) string {
-	// fmt.Println(object)
-	var jsonData []byte
-	jsonData, err := json.Marshal(object)
-	if err != nil {
-    	fmt.Println(err)
-	}
-
-	return string(jsonData)
 }

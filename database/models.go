@@ -7,18 +7,18 @@ import (
 
 type Producttype struct {
     Id          string    `orm:"pk"`
-    typeid      int
+    Typeid      int
     Name        string
 }
 
 type Product struct {
     Id                  string    `orm:"pk"`
-    producttypeid       string
-    productId           string
-    productIdAsString   string
-    name                string
-    fullname            string
-    simpleName          string
+    Producttypeid       string    `orm:"column(producttypeid)"`
+    Productid           string    `orm:"column(productid)"`
+    ProductidAsString   string    `orm:"column(productidAsString)"`
+    Name                string    `orm:"column(name)"`
+    Fullname            string    `orm:"column(fullname)"`
+    SimpleName          string    `orm:"column(simpleName)"`
     // Prices      []*Price  `orm:"reverse(many)"`
 }
 

@@ -24,3 +24,21 @@ func (this *ProductApiController) Get() {
 	this.Data["json"] = data
     this.ServeJSON()
 }
+
+func (this *ProductApiController) GetDetails() {
+	var id = this.Ctx.Input.Param(":id")
+
+	orm.Debug = true
+	o := orm.NewOrm()
+
+	var product []*database.Product
+	num, err := o.QueryTable("product").Filter("Id", id).All(&product)
+	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+
+	fmt.Println(product)
+
+	data := getJsonFor(product)
+	
+	this.Data["json"] = data
+    this.ServeJSON()
+}
