@@ -18,7 +18,7 @@ type Product struct {
     ProductidAsString   string    `orm:"column(productidasstring)"`
     Name                string    `orm:"column(name)"`
     Fullname            string    `orm:"column(fullname)"`
-    SimpleName          string    `orm:"column(simpleName)"`
+    SimpleName          string    `orm:"column(simplename)"`
     // Prices      []*Price  `orm:"reverse(many)"`
 }
 
