@@ -5,10 +5,20 @@ import (
     "time"
 )
 
-type Product struct {
+type Producttype struct {
     Id          string    `orm:"pk"`
+    typeid      int
     Name        string
-    Url         string
+}
+
+type Product struct {
+    Id                  string    `orm:"pk"`
+    producttypeid       string
+    productId           string
+    productIdAsString   string
+    name                string
+    fullname            string
+    simpleName          string
     // Prices      []*Price  `orm:"reverse(many)"`
 }
 
@@ -21,5 +31,5 @@ type Price struct {
 
 func init() {
     // Need to register model in init
-    orm.RegisterModel(new(Product), new(Price))
+    orm.RegisterModel(new(Product), new(Price), new(Producttype))
 }

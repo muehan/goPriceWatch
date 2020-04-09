@@ -57,7 +57,7 @@ func (c *ProductController) Details() {
 		data = append(data, price.Price)
 	}
 
-	jsonDates := getJsonFor(dates)	
+	jsonDates := getJsonFor(dates)
 	jsonData := getJsonFor(data)
 
 	c.Data["product"] = product
