@@ -5,7 +5,13 @@
       <form class="col s12">
         <div class="row">
           <div class="input-field col offset-s4 s4">
-            <input placeholder="ProductId" id="productid" type="text" class="validate" v-model="search" />
+            <input
+              placeholder="ProductId"
+              id="productid"
+              type="text"
+              class="validate"
+              v-model="searchModel"
+            />
             <label for="productid">ProductId</label>
           </div>
         </div>
@@ -14,12 +20,16 @@
         </div>
       </form>
     </div>
-    <Details v-if="loaded" :simplename="this.simplename" :name="this.name" :fullname="this.fullname" />
+    <template v-if="this.loaded">
+      <Details :simplename="this.simplename" :name="this.name" :fullname="this.fullname" />
+      <Price :id="this.productId" />
+    </template>
   </div>
 </template>
 
 <script>
 import Details from "./Details.vue";
+import Price from "./Price.vue";
 import Vue from "vue";
 import Resource from "vue-resource";
 Vue.use(Resource);
@@ -27,35 +37,38 @@ Vue.use(Resource);
 export default {
   name: "Search",
   components: {
-    Details
+    Details,
+    Price
   },
   props: {},
   data() {
     return {
-      search: '',
-      loaded: true,
-      name: "asdf",
+      productId: "",
+      searchModel: "",
+      loaded: false,
+      name: "",
       simplename: "",
       fullname: ""
     };
   },
   methods: {
     search() {
-      console.log("search");
-      this.$http.get("http://localhost:8080/api/product/8908274").then(
-        response => {
-          let data = JSON.parse(response.body);
-          this.name = data.Name;
-          this.simplename = data.SimpleName;
-          this.fullname = data.Fullname;
-          this.loaded = true;
-          return response.body;
-        },
-        response => {
-          console.error(response);
-          this.name = "ertz";
-        }
-      );
+      this.$http
+        .get("http://localhost:8080/api/product/" + this.searchModel)
+        .then(
+          response => {
+            let data = JSON.parse(response.body);
+            this.name = data.Name;
+            this.simplename = data.SimpleName;
+            this.fullname = data.Fullname;
+            this.productId = data.Id;
+            this.loaded = true;
+            return response.body;
+          },
+          response => {
+            console.error(response);
+          }
+        );
     }
   }
 };
