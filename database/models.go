@@ -26,7 +26,8 @@ type Price struct {
     Id          string     `orm:"pk"`
     Price       float64     // dangerous, but no other solution found so far
     Date        time.Time
-    Product     *Product   `orm:"column(productid);rel(one)"` // Reverse relationship (optional)
+    Productid   string     `orm:"column(productid)"` 
+    //Product     *Product   `orm:"column(productid);rel(one)"` // Reverse relationship (optional)
 }
 
 func init() {

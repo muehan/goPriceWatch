@@ -11,61 +11,71 @@ type ProductController struct {
 	beego.Controller
 }
 
-func (c *ProductController) GetProducts() {
+// @Title get
+// @Description get object
+// @Success 200 {object} database.Product
+// @Failure 403 body is empty
+// @router / [get]
+func (this *ProductController) Get() {
+	fmt.Println("Call all Query")
+
 	orm.Debug = true
 	o := orm.NewOrm()
 
-	var products []*database.Product
-	num, err := o.QueryTable("product").All(&products)
+	var product []*database.Product
+	num, err := o.QueryTable("product").All(&product)
 	fmt.Printf("Returned Rows Num: %s, %s", num, err)
 
-	c.Data["products"] = products
+	data := getJsonFor(product)
 	
-	c.TplName = "product/index.html"
-	c.Layout = "_layout.html"
+	this.Data["json"] = data
+    this.ServeJSON()
 }
 
-// @router /product/:id
-func (c *ProductController) Details() {
-	var id = c.Ctx.Input.Param(":id")
-
-	var product database.Product
-	var prices []*database.Price
-	var dates []string
-	var data []float64
+// @Title get
+// @Description get object
+// @Param id string path true "product id"
+// @Success 200 {object} database.Product
+// @Failure 403 body is empty
+// @router /:productId [get]
+func (this *ProductController) GetDetails() {
+	fmt.Println("Call Id Query")
+	var productId = this.Ctx.Input.Param(":productId")
 
 	orm.Debug = true
 	o := orm.NewOrm()
 
-	num1, err := o.QueryTable("product").Filter("Id", id).All(&product)
-	fmt.Println("Returned Rows Num: %s, %s", num1, err)
+	var product []*database.Product
+	num, err := o.QueryTable("product").Filter("productidasstring", productId).All(&product)
+	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+
+	fmt.Println(product)
+
+	data := getJsonFor(product)
 	
-	num2, err := o.QueryTable("price").Filter("productid", id).All(&prices)
-	fmt.Println("Returned Rows Num: %s, %s", num2, err)
+	this.Data["json"] = data
+    this.ServeJSON()
+}
 
-	var max float64
-	err = o.Raw("SELECT max(price) FROM price where productid = ?", id).QueryRow(&max)
+// @Title get
+// @Description get object
+// @Param search string query true "search string"
+// @Success 200 {object} database.Product
+// @Failure 403 body is empty
+// @router / [get]
+func (this *ProductController) Search() {
+	fmt.Println("Call Search Query")
+	var search = this.Ctx.Input.Param(":search")
 
-	var min float64
-	err = o.Raw("SELECT min(price) FROM price where productid = ?", id).QueryRow(&min)
+	orm.Debug = true
+	o := orm.NewOrm()
 
-	for _, price := range prices {
-		date := price.Date.Format("2006-01-02")
-		// fmt.Println(date);
-		dates = append(dates, date)
-		data = append(data, price.Price)
-	}
+	var products database.Product
+	num, err := o.QueryTable("product").Filter("fullname__contains", search).All(&products)
+	fmt.Printf("Returned Rows Num: %s, %s", num, err)
 
-	jsonDates := getJsonFor(dates)
-	jsonData := getJsonFor(data)
-
-	c.Data["product"] = product
-	c.Data["prices"] = prices
-	c.Data["max"] = max
-	c.Data["min"] = min
-	c.Data["dates"] = jsonDates
-	c.Data["data"] = jsonData
-
-	c.TplName = "product/details.html"
-	c.Layout = "_layout.html"
+	data := getJsonFor(products)
+	
+	this.Data["json"] = data
+    this.ServeJSON()
 }
