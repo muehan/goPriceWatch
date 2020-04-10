@@ -40,6 +40,8 @@ func main() {
 	o := orm.NewOrm()
     o.Using("default")
 
+	beego.SetStaticPath("/", "dist")
+	beego.BConfig.WebConfig.ViewsPath = "dist"
 	beego.Run()
 }
 
