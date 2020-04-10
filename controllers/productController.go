@@ -45,9 +45,9 @@ func (this *ProductController) GetDetails() {
 	orm.Debug = true
 	o := orm.NewOrm()
 
-	var product []*database.Product
-	num, err := o.QueryTable("product").Filter("productidasstring", productId).All(&product)
-	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+	var product database.Product
+	err := o.QueryTable("product").Filter("productidasstring", productId).One(&product)
+	fmt.Printf("Returned Rows Num: %s", err)
 
 	fmt.Println(product)
 
