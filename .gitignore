@@ -21,3 +21,11 @@ yarn-error.log*
 *.sln
 *.sw?
 
+_Store
+WebIM/WebIM
+shorturl/shorturl
+todo/todo
+*.exe
+*.exe~
+
+config.json
