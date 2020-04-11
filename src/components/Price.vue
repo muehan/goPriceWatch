@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+
+      <Linechart />
+
     <ul>
       <li v-for="price in prices" :key="price.Price">{{format_date(price.Date)}} | {{price.Price}}.-</li>
     </ul>
@@ -12,11 +15,16 @@ import Vue from "vue";
 import Resource from "vue-resource";
 Vue.use(Resource);
 
+import Linechart from './Linechart.vue';
+
 export default {
   name: "Price",
   props: {
     id: String
   },
+  components: [
+      Linechart,
+  ],
   data() {
     return {
       productId: this.id,
@@ -41,7 +49,6 @@ export default {
           .then(
             function(response) {
               let data = JSON.parse(response.body);
-              console.log(data);
               this.prices = data;
             },
             function(response) {
