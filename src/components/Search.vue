@@ -2,7 +2,7 @@
   <div>
     <h1>PriceWatch</h1>
     <div class="row">
-      <form class="col s12">
+      <form class="col s12" @submit="submit">
         <div class="row">
           <div class="input-field col offset-s4 s4">
             <input
@@ -38,7 +38,7 @@ export default {
   name: "Search",
   components: {
     Details,
-    Price,
+    Price
   },
   props: {},
   data() {
@@ -53,9 +53,8 @@ export default {
   },
   methods: {
     search() {
-      this.$http
-        .get("/api/product/" + this.searchModel)
-        .then(
+      if (this.searchModel) {
+        this.$http.get("/api/product/" + this.searchModel).then(
           response => {
             let data = JSON.parse(response.body);
             this.name = data.Name;
@@ -70,6 +69,11 @@ export default {
             console.error(response);
           }
         );
+      }
+    },
+    submit(e) {
+      this.search();
+      e.preventDefault();
     }
   }
 };

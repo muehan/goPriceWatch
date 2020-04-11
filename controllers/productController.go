@@ -24,7 +24,7 @@ func (this *ProductController) Get() {
 
 	var product []*database.Product
 	num, err := o.QueryTable("product").All(&product)
-	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
 	data := getJsonFor(product)
 	
@@ -47,7 +47,9 @@ func (this *ProductController) GetDetails() {
 
 	var product database.Product
 	err := o.QueryTable("product").Filter("productidasstring", productId).One(&product)
-	fmt.Printf("Returned Rows Num: %s", err)
+	if (err != nil) {
+		this.Abort("404")
+	}
 
 	fmt.Println(product)
 
