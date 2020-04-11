@@ -1,17 +1,11 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col s10 offset-s1">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-            <span class="card-title">{{simplename}}</span>
-            <p>
-              {{name}}
-            </p>
-            <p>
-              {{fullname}}
-            </p>
-          </div>
+  <div class="row">
+    <div class="col s8 offset-s2">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{simplename}}</span>
+          <p>{{name}}</p>
+          <p>{{fullname}}</p>
         </div>
       </div>
     </div>

@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-
-      <Linechart />
-
+    <line-chart :chart-data="datacollection" :options="options"></line-chart>
     <ul>
       <li v-for="price in prices" :key="price.Price">{{format_date(price.Date)}} | {{price.Price}}.-</li>
     </ul>
@@ -15,46 +13,71 @@ import Vue from "vue";
 import Resource from "vue-resource";
 Vue.use(Resource);
 
-import Linechart from './Linechart.vue';
+import LineChart from "./LineChart.js";
 
 export default {
   name: "Price",
   props: {
     id: String
   },
-  components: [
-      Linechart,
-  ],
+  components: {
+    LineChart
+  },
   data() {
     return {
       productId: this.id,
-      prices: []
+      prices: [],
+      dates: [],
+      datacollection: null,
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+      },
     };
+  },
+  computed: {
+      
+  },
+  mounted() {
+    // this.fillData();
   },
   methods: {
     format_date(value) {
       if (value) {
         return moment(String(value)).format("YYYY-MM-DD");
       }
+    },
+    fillData() {
+      this.datacollection = {
+        labels: this.prices.map(x => moment(String(x.Date)).format("YYYY-MM-DD")),
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: "#f87979",
+            data: this.prices.map(x => x.Price),
+          },
+        ]
+      };
+    },
+    getRandomInt() {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     }
   },
-  computed: {},
   watch: {
     id: {
       immediate: true,
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
-        this.$http
-          .get("http://localhost:8080/api/price/" + newValue)
-          .then(
-            function(response) {
-              let data = JSON.parse(response.body);
-              this.prices = data;
-            },
-            function(response) {
-              console.error(response);
-            }
-          );
+        this.$http.get("http://localhost:8080/api/price/" + newValue).then(
+          function(response) {
+            let data = JSON.parse(response.body);
+            this.prices = data;
+            this.fillData();
+          },
+          function(response) {
+            console.error(response);
+          }
+        );
       }
     }
   },
@@ -64,4 +87,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>
