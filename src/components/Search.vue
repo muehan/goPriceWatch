@@ -24,14 +24,12 @@
       <Details :simplename="this.simplename" :name="this.name" :fullname="this.fullname" />
       <Price :id="this.productId" />
     </template>
-    <!-- <RandomChart /> -->
   </div>
 </template>
 
 <script>
 import Details from "./Details.vue";
 import Price from "./Price.vue";
-// import RandomChart from "./RandomChart";
 import Vue from "vue";
 import Resource from "vue-resource";
 Vue.use(Resource);
@@ -39,7 +37,6 @@ Vue.use(Resource);
 export default {
   name: "Search",
   components: {
-    // RandomChart,
     Details,
     Price,
   },
@@ -69,6 +66,7 @@ export default {
             return response.body;
           },
           response => {
+            this.loaded = false;
             console.error(response);
           }
         );
