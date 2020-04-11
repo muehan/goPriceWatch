@@ -57,7 +57,7 @@ export default {
   methods: {
     search() {
       this.$http
-        .get("http://localhost:8080/api/product/" + this.searchModel)
+        .get("/api/product/" + this.searchModel)
         .then(
           response => {
             let data = JSON.parse(response.body);

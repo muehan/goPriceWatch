@@ -68,7 +68,7 @@ export default {
       immediate: true,
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
-        this.$http.get("http://localhost:8080/api/price/" + newValue).then(
+        this.$http.get("/api/price/" + newValue).then(
           function(response) {
             let data = JSON.parse(response.body);
             this.prices = data;
