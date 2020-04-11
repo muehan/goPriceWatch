@@ -37,10 +37,11 @@ export default {
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
         this.$http
-          .get("http://localhost:8080/api/price/" + this.productId)
+          .get("http://localhost:8080/api/price/" + newValue)
           .then(
             function(response) {
               let data = JSON.parse(response.body);
+              console.log(data);
               this.prices = data;
             },
             function(response) {
