@@ -89,6 +89,6 @@ h3 {
   margin: 40px 0 0;
 }
 .small {
-  font-size: 8px;
+  font-size: 10px;
 }
 </style>
