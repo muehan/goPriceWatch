@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h1>PriceWatch</h1>
     <div class="row">
+      <p>Hier Produktnummer aus Digitec Shop eintragen:</p>
+      <p class="small">
+        Folgende Produkttypen werden gespeichert:
+        <router-link to="/types">typen</router-link>
+      </p>
       <form class="col s12" @submit="submit">
         <div class="row">
           <div class="input-field col offset-s4 s4">
@@ -83,5 +87,8 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
+}
+.small {
+  font-size: 8px;
 }
 </style>

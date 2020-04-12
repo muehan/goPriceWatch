@@ -1,18 +1,29 @@
 <template>
   <div id="app">
-    <Search />
+    <nav class="teal">
+      <div class="nav-wrapper">
+        <router-link to="/" class="brand-logo center">Pricewatch</router-link>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li>
+             <router-link to="/">Search</router-link>
+          </li>
+          <li>
+            <router-link to="/types">ProductTypes</router-link>
+          </li>          
+        </ul>
+      </div>
+    </nav>
+    <div class="content">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import Search from './components/Search.vue'
-
 export default {
-  name: 'App',
-  components: {
-    Search
-  }
-}
+  name: "App",
+  components: {  }
+};
 </script>
 
 <style>
@@ -22,6 +33,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.content {
   margin-top: 60px;
 }
 </style>
