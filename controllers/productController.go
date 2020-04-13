@@ -74,7 +74,7 @@ func (this *ProductController) Search() {
 
 	var products database.Product
 	num, err := o.QueryTable("product").Filter("fullname__contains", search).All(&products)
-	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
 	data := getJsonFor(products)
 	

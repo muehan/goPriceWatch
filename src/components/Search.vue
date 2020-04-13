@@ -79,6 +79,13 @@ export default {
       this.search();
       e.preventDefault();
     }
+  },
+  mounted() {
+    let productNumber = this.$route.params.productNumber;
+    if (productNumber) {
+      this.searchModel = productNumber;
+      this.search();
+    }
   }
 };
 </script>

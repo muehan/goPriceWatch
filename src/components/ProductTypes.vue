@@ -8,9 +8,9 @@
         <li v-for="type in types" :key="type" class="collection-item">
           <div>
             {{type.Name}} | {{type.Typeid}}
-            <a href="#" class="secondary-content">
+            <router-link :to="'/productsbytype/' + type.Id" class="secondary-content">
               <i class="material-icons">send</i>
-            </a>
+            </router-link>
           </div>
         </li>
       </ul>
