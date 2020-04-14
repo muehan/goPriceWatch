@@ -7,10 +7,12 @@
         </li>
         <li v-for="product in products" :key="product" class="collection-item">
           <div>
-            {{product.Name}}
-            <router-link :to="'/search/' + product.ProductidAsString" class="secondary-content">
-              <i class="material-icons">send</i>
-            </router-link>
+            <div style="width: 85%; display: inline-block;">{{product.Name}}</div>
+            <div style="float: right;">
+              <router-link :to="'/search/' + product.ProductidAsString" class="secondary-content link">
+                <i class="material-icons">send</i>
+              </router-link>
+            </div>
           </div>
         </li>
       </ul>
@@ -54,4 +56,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.link {
+  height: 24px;
+}
 </style>
