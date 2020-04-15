@@ -1,21 +1,31 @@
 <template>
-  <div class="row">
-    <div class="col offset-l2 m12 l8">
-      <ul class="collection with-header">
-        <li class="collection-header">
-          <p>Produkte</p>
-        </li>
-        <li v-for="product in products" :key="product" class="collection-item">
-          <div>
-            <div style="width: 85%; display: inline-block;">{{product.Name}}</div>
-            <div style="float: right;">
-              <router-link :to="'/search/' + product.ProductidAsString" class="secondary-content link">
-                <i class="material-icons">send</i>
-              </router-link>
+  <div>
+    <div class="row">
+      <div class="input-field col offset-l2 s12 m12 l8">
+        <input id="search" type="text" class="validate" v-model="filter" />
+        <label for="search">Search</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col offset-l2 m12 l8">
+        <ul class="collection with-header">
+          <li class="collection-header">
+            <p>Produkte</p>
+          </li>
+          <li v-for="product in filteredProducts()" :key="product" class="collection-item">
+            <div>
+              <div style="width: 85%; display: inline-block;">{{product.Name}}</div>
+              <div style="float: right;">
+                <router-link
+                  :to="'/search/' + product.ProductidAsString"
+                  class="secondary-content link">
+                  <i class="material-icons">send</i>
+                </router-link>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +41,8 @@ export default {
   props: {},
   data() {
     return {
-      products: []
+      products: [],
+      filter: ""
     };
   },
   mounted() {
@@ -49,6 +60,15 @@ export default {
           console.error(response);
         }
       );
+    },
+    filteredProducts() {
+      return this.products.filter(x => {
+          return x
+            .Name
+            .toLowerCase()
+            .indexOf(
+              this.filter.toLowerCase()) >= 0
+        });
     }
   }
 };
@@ -56,7 +76,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .link {
   height: 24px;
 }

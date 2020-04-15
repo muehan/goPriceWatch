@@ -10,7 +10,6 @@
         <div class="row">
           <div class="input-field col offset-s4 s4">
             <input
-              placeholder="ProductId"
               id="productid"
               type="text"
               class="validate"
