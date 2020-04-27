@@ -52,8 +52,8 @@ export default {
         labels: this.prices.map(x => moment(String(x.Date)).format("YYYY-MM-DD")),
         datasets: [
           {
-            label: "Data One",
-            backgroundColor: "#f87979",
+            label: "Price",
+            backgroundColor: "rgba(153, 159, 255, 0.2)",
             data: this.prices.map(x => x.Price),
           },
         ]
