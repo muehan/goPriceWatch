@@ -25,8 +25,8 @@ func (this *PriceController) GetForProduct() {
 	o := orm.NewOrm()
 
 	var price []*database.Price
-	num, err := o.QueryTable("price").Filter("productid", productId).All(&price)
-	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+	num, err := o.QueryTable("price").Filter("productid", productId).OrderBy("date").All(&price)
+	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
 	data := getJsonFor(price)
 	
