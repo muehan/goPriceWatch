@@ -28,7 +28,7 @@ func (this *PriceController) GetForProduct() {
 	num, err := o.QueryTable("price").Filter("productid", productId).OrderBy("date").All(&price)
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(price)
+	data := getJsonFor(price) 
 	
 	this.Data["json"] = data
     this.ServeJSON()

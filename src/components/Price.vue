@@ -1,8 +1,21 @@
 <template>
   <div class="container">
-    <line-chart :chart-data="datacollection" :options="options"></line-chart>
-    <ul>
-      <li v-for="price in prices" :key="price.Price">{{format_date(price.Date)}} | {{price.Price}}.-</li>
+    <div class="row">
+      <line-chart :chart-data="datacollection" :options="options"></line-chart>
+    </div>
+
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <h5>min: {{ minPrice }}.-</h5>
+        <h5>max: {{ maxPrice }}.-</h5>
+      </div>
+    </div>
+
+    <ul class="collection">
+      <li class="collection-item" style="text-align: left" v-for="price in prices" :key="price.Price">
+        <span>{{format_date(price.Date)}}</span>
+        <span style="float: right;">{{price.Price}}.-</span>
+      </li>
     </ul>
   </div>
 </template>
@@ -28,16 +41,16 @@ export default {
       productId: this.id,
       prices: [],
       dates: [],
+      minPrice: 0,
+      maxPrice: 0,
       datacollection: null,
       options: {
-          responsive: true,
-          maintainAspectRatio: false,
-      },
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
-  computed: {
-      
-  },
+  computed: {},
   mounted() {
     // this.fillData();
   },
@@ -49,13 +62,15 @@ export default {
     },
     fillData() {
       this.datacollection = {
-        labels: this.prices.map(x => moment(String(x.Date)).format("YYYY-MM-DD")),
+        labels: this.prices.map(x =>
+          moment(String(x.Date)).format("YYYY-MM-DD")
+        ),
         datasets: [
           {
             label: "Price",
             backgroundColor: "rgba(153, 159, 255, 0.2)",
-            data: this.prices.map(x => x.Price),
-          },
+            data: this.prices.map(x => x.Price)
+          }
         ]
       };
     },
@@ -73,6 +88,8 @@ export default {
             let data = JSON.parse(response.body);
             this.prices = data;
             this.fillData();
+            this.minPrice = Math.min(...this.prices.map(x => x.Price));
+            this.maxPrice = Math.max(...this.prices.map(x => x.Price));
           },
           function(response) {
             console.error(response);
@@ -87,5 +104,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

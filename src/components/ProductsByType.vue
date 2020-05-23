@@ -14,7 +14,7 @@
           </li>
           <li v-for="product in filteredProducts()" :key="product" class="collection-item">
             <div>
-              <div style="width: 85%; display: inline-block;">{{product.Name}}</div>
+              <div style="width: 85%; display: inline-block;">{{product.Fullname}}</div>
               <div style="float: right;">
                 <router-link
                   :to="'/search/' + product.ProductidAsString"
