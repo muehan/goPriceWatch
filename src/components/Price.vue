@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      daysToLoad: 30,
       productId: this.id,
       prices: [],
       dates: [],
@@ -88,7 +89,7 @@ export default {
       immediate: true,
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
-        this.$http.get("/api/price/" + newValue).then(
+        this.$http.get("/api/price/" + newValue + "/" + this.daysToLoad).then(
           function(response) {
             let data = JSON.parse(response.body);
             this.prices = data;

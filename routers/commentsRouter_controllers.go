@@ -10,7 +10,7 @@ func init() {
     beego.GlobalControllerRouter["goPriceWatch/controllers:PriceController"] = append(beego.GlobalControllerRouter["goPriceWatch/controllers:PriceController"],
         beego.ControllerComments{
             Method: "GetForProduct",
-            Router: `/:productId`,
+            Router: `/:productId/:days`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
