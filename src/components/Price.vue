@@ -14,8 +14,12 @@
     <ul class="collection">
       <li class="collection-item" style="text-align: left" v-for="price in prices" :key="price.Price">
         <span>{{format_date(price.Date)}}</span>
-        <span style="float: right;">{{price.Price}}.-</span>
-        <span style="float: right;"> Instead: {{price.InsteadOfPrice}}.-</span>
+        <span v-if="price.InsteadOfPrice" style="float: right; color: red;">
+          <span>{{price.Price}}.- instead of {{price.InsteadOfPrice}}.-</span>
+        </span>
+        <span v-else style="float: right;">
+          <span>{{price.Price}}.-</span>
+        </span>
       </li>
     </ul>
   </div>
