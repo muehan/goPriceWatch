@@ -1,5 +1,12 @@
 <template>
   <div class="container">
+    <div style="margin-bottom: 40px">
+      <p>Show days</p>
+      <a v-on:click="changeDaysToLoad(30)" class="waves-effect waves-light btn">30</a>
+      <a v-on:click="changeDaysToLoad(60)" class="waves-effect waves-light btn">60</a>
+      <a v-on:click="changeDaysToLoad(90)" class="waves-effect waves-light btn">90</a>
+    </div>
+
     <div class="row">
       <line-chart :chart-data="datacollection" :options="options"></line-chart>
     </div>
@@ -12,7 +19,12 @@
     </div>
 
     <ul class="collection">
-      <li class="collection-item" style="text-align: left" v-for="price in prices" :key="price.Price">
+      <li
+        class="collection-item"
+        style="text-align: left"
+        v-for="price in prices"
+        :key="price.Price"
+      >
         <span>{{format_date(price.Date)}}</span>
         <span v-if="price.InsteadOfPrice" style="float: right; color: red;">
           <span>{{price.Price}}.- instead of {{price.InsteadOfPrice}}.-</span>
@@ -61,6 +73,10 @@ export default {
     // this.fillData();
   },
   methods: {
+    changeDaysToLoad(days) {
+      this.daysToLoad = days;
+      this.loadData(this.productId);
+    },
     format_date(value) {
       if (value) {
         return moment(String(value)).format("YYYY-MM-DD");
@@ -82,6 +98,20 @@ export default {
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    },
+    loadData(productId) {
+      this.$http.get("/api/price/" + productId + "/" + this.daysToLoad).then(
+        function(response) {
+          let data = JSON.parse(response.body);
+          this.prices = data;
+          this.fillData();
+          this.minPrice = Math.min(...this.prices.map(x => x.Price));
+          this.maxPrice = Math.max(...this.prices.map(x => x.Price));
+        },
+        function(response) {
+          console.error(response);
+        }
+      );
     }
   },
   watch: {
@@ -89,18 +119,7 @@ export default {
       immediate: true,
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
-        this.$http.get("/api/price/" + newValue + "/" + this.daysToLoad).then(
-          function(response) {
-            let data = JSON.parse(response.body);
-            this.prices = data;
-            this.fillData();
-            this.minPrice = Math.min(...this.prices.map(x => x.Price));
-            this.maxPrice = Math.max(...this.prices.map(x => x.Price));
-          },
-          function(response) {
-            console.error(response);
-          }
-        );
+        this.loadData(newValue);
       }
     }
   },
