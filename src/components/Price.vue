@@ -120,6 +120,7 @@ export default {
       handler(newValue, oldValue) {
         console.log(oldValue + " - " + newValue);
         this.loadData(newValue);
+        this.productId = newValue;
       }
     }
   },
