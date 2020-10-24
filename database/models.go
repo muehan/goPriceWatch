@@ -13,14 +13,15 @@ type Producttype struct {
 }
 
 type Product struct {
-	Id                string `orm:"pk"`
-	Producttypeid     string `orm:"column(producttypeid)"`
-	Productid         string `orm:"column(productid)"`
-	ProductidAsString string `orm:"column(productidasstring)"`
-	Name              string `orm:"column(name)"`
-	Fullname          string `orm:"column(fullname)"`
-	SimpleName        string `orm:"column(simplename)"`
-	// Prices      []*Price  `orm:"reverse(many)"`
+	Id                string    `orm:"pk"`
+	Producttypeid     string    `orm:"column(producttypeid)"`
+	Productid         string    `orm:"column(productid)"`
+	ProductidAsString string    `orm:"column(productidasstring)"`
+	Name              string    `orm:"column(name)"`
+	Fullname          string    `orm:"column(fullname)"`
+	SimpleName        string    `orm:"column(simplename)"`
+	Date              time.Time `orm:"type(datetime)"`
+	// Prices        []*Price  `orm:"reverse(many)"`
 }
 
 type Price struct {

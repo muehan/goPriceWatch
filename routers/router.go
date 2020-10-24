@@ -2,6 +2,7 @@ package routers
 
 import (
 	"goPriceWatch/controllers"
+
 	"github.com/astaxie/beego"
 )
 
@@ -12,30 +13,36 @@ func init() {
 	// beego.Router("/api/product", &controllers.ProductApiController{})
 	// beego.Router("/api/product/:id", &controllers.ProductApiController{},  "get:GetDetails")
 	// beego.Router("/api/product/:search", &controllers.ProductApiController{},  "get:Search")
+	// beego.Router("/api/product/:date", &controllers.ProductApiController{},  "get:Date")
 	// beego.Router("/api/producttype", &controllers.ProductTypeApiController{})
 
-	 restfulRouter := beego.NewNamespace("/api",
-		 beego.NSNamespace("/product",
+	restfulRouter := beego.NewNamespace("/api",
+		beego.NSNamespace("/product",
 			beego.NSInclude(
-			     &controllers.ProductController{},
-		    ),
+				&controllers.ProductController{},
+			),
 		),
 		beego.NSNamespace("/producttype",
 			beego.NSInclude(
 				&controllers.ProductTypeController{},
 			),
-		 ),
-		 beego.NSNamespace("/productbytype",
+		),
+		beego.NSNamespace("/productbytype",
 			beego.NSInclude(
 				&controllers.ProductByTypeController{},
 			),
-		 ),
-		 beego.NSNamespace("/price",
+		),
+		beego.NSNamespace("/productbydate",
+			beego.NSInclude(
+				&controllers.ProductByDateController{},
+			),
+		),
+		beego.NSNamespace("/price",
 			beego.NSInclude(
 				&controllers.PriceController{},
 			),
-	 	),
-	 )
+		),
+	)
 
-	 beego.AddNamespace(restfulRouter)
+	beego.AddNamespace(restfulRouter)
 }

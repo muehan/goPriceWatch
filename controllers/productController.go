@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"goPriceWatch/database"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"fmt"
 )
 
 type ProductController struct {
@@ -27,9 +28,9 @@ func (this *ProductController) Get() {
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
 	data := getJsonFor(product)
-	
+
 	this.Data["json"] = data
-    this.ServeJSON()
+	this.ServeJSON()
 }
 
 // @Title get
@@ -47,16 +48,16 @@ func (this *ProductController) GetDetails() {
 
 	var product database.Product
 	err := o.QueryTable("product").Filter("productidasstring", productId).One(&product)
-	if (err != nil) {
+	if err != nil {
 		this.Abort("404")
 	}
 
 	fmt.Println(product)
 
 	data := getJsonFor(product)
-	
+
 	this.Data["json"] = data
-    this.ServeJSON()
+	this.ServeJSON()
 }
 
 // @Title get
@@ -77,7 +78,7 @@ func (this *ProductController) Search() {
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
 	data := getJsonFor(products)
-	
+
 	this.Data["json"] = data
-    this.ServeJSON()
+	this.ServeJSON()
 }
