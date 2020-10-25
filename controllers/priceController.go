@@ -42,3 +42,27 @@ func (controller *PriceController) GetForProduct() {
 	controller.Data["json"] = data
 	controller.ServeJSON()
 }
+
+// @Title get
+// @Description get object
+// @Param date string path true "date"
+// @Success 200 {object} database.Price
+// @Failure 403 body is empty
+// @router /:date [get]
+func (controller *PriceController) GetByDate() {
+	fmt.Println("Call Price by date")
+	var date = controller.Ctx.Input.Param(":date")
+
+	orm.Debug = true
+	o := orm.NewOrm()
+
+	var price []*database.Price
+	num, err := o.QueryTable("price").Filter("date", date).All(&price)
+
+	fmt.Printf("Returned Rows Num: %d, %s", num, err)
+
+	data := getJsonFor(price)
+
+	controller.Data["json"] = data
+	controller.ServeJSON()
+}
