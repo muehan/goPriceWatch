@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"goPriceWatch/database"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"fmt"
 )
 
 type ProductTypeController struct {
@@ -24,8 +25,6 @@ func (this *ProductTypeController) Get() {
 	num, err := o.QueryTable("producttype").All(&producttypes)
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(producttypes)
-	
-	this.Data["json"] = data
-    this.ServeJSON()
+	this.Data["json"] = producttypes
+	this.ServeJSON()
 }

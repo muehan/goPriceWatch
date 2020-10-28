@@ -34,12 +34,9 @@ func (controller *PriceController) GetForProduct() {
 
 	var price []*database.Price
 	num, err := o.QueryTable("price").Filter("productid", productId).Filter("date__gt", subtractedDate.Format("2006-01-02")).OrderBy("date").All(&price)
-
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(price)
-
-	controller.Data["json"] = data
+	controller.Data["json"] = price
 	controller.ServeJSON()
 }
 
@@ -58,11 +55,8 @@ func (controller *PriceController) GetByDate() {
 
 	var price []*database.Price
 	num, err := o.QueryTable("price").Filter("date", date).All(&price)
-
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(price)
-
-	controller.Data["json"] = data
+	controller.Data["json"] = price
 	controller.ServeJSON()
 }

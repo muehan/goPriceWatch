@@ -102,8 +102,8 @@ export default {
     loadData(productId) {
       this.$http.get("/api/price/" + productId + "/" + this.daysToLoad).then(
         function(response) {
-          let data = JSON.parse(response.body);
-          this.prices = data;
+          console.log(response.body);
+          this.prices = response.body;
           this.fillData();
           this.minPrice = Math.min(...this.prices.map(x => x.Price));
           this.maxPrice = Math.max(...this.prices.map(x => x.Price));

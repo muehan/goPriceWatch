@@ -39,8 +39,7 @@ export default {
     loadTypes() {
       this.$http.get("/api/producttype").then(
         response => {
-          let data = JSON.parse(response.body);
-          this.types = data;
+          this.types = response.body;
           return response.body;
         },
         response => {

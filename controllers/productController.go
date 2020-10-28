@@ -27,9 +27,7 @@ func (this *ProductController) Get() {
 	num, err := o.QueryTable("product").All(&product)
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(product)
-
-	this.Data["json"] = data
+	this.Data["json"] = product
 	this.ServeJSON()
 }
 
@@ -54,9 +52,7 @@ func (this *ProductController) GetDetails() {
 
 	fmt.Println(product)
 
-	data := getJsonFor(product)
-
-	this.Data["json"] = data
+	this.Data["json"] = product
 	this.ServeJSON()
 }
 
@@ -77,8 +73,6 @@ func (this *ProductController) Search() {
 	num, err := o.QueryTable("product").Filter("fullname__contains", search).All(&products)
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(products)
-
-	this.Data["json"] = data
+	this.Data["json"] = products
 	this.ServeJSON()
 }

@@ -29,8 +29,6 @@ func (this *ProductByDateController) GetByDate() {
 	num, err := o.QueryTable("product").Filter("date", date).All(&products)
 	fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	data := getJsonFor(products)
-
-	this.Data["json"] = data
+	this.Data["json"] = products
 	this.ServeJSON()
 }

@@ -59,11 +59,10 @@ export default {
       if (this.searchModel) {
         this.$http.get("/api/product/" + this.searchModel).then(
           response => {
-            let data = JSON.parse(response.body);
-            this.name = data.Name;
-            this.simplename = data.SimpleName;
-            this.fullname = data.Fullname;
-            this.productId = data.Id;
+            this.name = response.body.Name;
+            this.simplename = response.body.SimpleName;
+            this.fullname = response.body.Fullname;
+            this.productId = response.body.Id;
             this.loaded = true;
             return response.body;
           },

@@ -32,8 +32,6 @@ func (this *ProductByTypeController) GetProductsByType() {
 		this.Abort("404")
 	}
 
-	data := getJsonFor(products)
-
-	this.Data["json"] = data
+	this.Data["json"] = products
 	this.ServeJSON()
 }
