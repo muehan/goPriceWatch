@@ -5,6 +5,8 @@
       <a v-on:click="changeDaysToLoad(30)" class="waves-effect waves-light btn">30</a>
       <a v-on:click="changeDaysToLoad(60)" class="waves-effect waves-light btn">60</a>
       <a v-on:click="changeDaysToLoad(90)" class="waves-effect waves-light btn">90</a>
+      <a v-on:click="changeDaysToLoad(180)" class="waves-effect waves-light btn">180</a>
+      <a v-on:click="changeDaysToLoad(0)" class="waves-effect waves-light btn">max</a>
     </div>
 
     <div class="row">

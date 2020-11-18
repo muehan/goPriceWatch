@@ -25,19 +25,31 @@ func (controller *PriceController) GetForProduct() {
 	fmt.Println("Call Id Query")
 	var productId = controller.Ctx.Input.Param(":productId")
 	var days = controller.Ctx.Input.Param(":days")
-	var dayStr, err = strconv.Atoi(days)
-	now := time.Now()
-	subtractedDate := now.AddDate(0, 0, -dayStr)
+	if days != "0" {
+		var dayStr, err = strconv.Atoi(days)
+		now := time.Now()
+		subtractedDate := now.AddDate(0, 0, -dayStr)
 
-	orm.Debug = true
-	o := orm.NewOrm()
+		orm.Debug = true
+		o := orm.NewOrm()
 
-	var price []*database.Price
-	num, err := o.QueryTable("price").Filter("productid", productId).Filter("date__gt", subtractedDate.Format("2006-01-02")).OrderBy("date").All(&price)
-	fmt.Printf("Returned Rows Num: %d, %s", num, err)
+		var price []*database.Price
+		num, err := o.QueryTable("price").Filter("productid", productId).Filter("date__gt", subtractedDate.Format("2006-01-02")).OrderBy("date").All(&price)
+		fmt.Printf("Returned Rows Num: %d, %s", num, err)
 
-	controller.Data["json"] = price
-	controller.ServeJSON()
+		controller.Data["json"] = price
+		controller.ServeJSON()
+	} else {
+		orm.Debug = true
+		o := orm.NewOrm()
+
+		var price []*database.Price
+		num, err := o.QueryTable("price").Filter("productid", productId).OrderBy("date").All(&price)
+		fmt.Printf("Returned Rows Num: %d, %s", num, err)
+
+		controller.Data["json"] = price
+		controller.ServeJSON()
+	}
 }
 
 // @Title get
