@@ -19,18 +19,19 @@
           </div>
         </div>
         <div class="row">
-          <a class="waves-effect waves-light btn" v-on:click="search">Suche</a>
+          <a class="waves-effect waves-light btn" v-on:click="loadProduct(searchModel)">Suche</a>
         </div>
       </form>
     </div>
     <template v-if="this.loaded">
-      <Details :simplename="this.simplename" :name="this.name" :fullname="this.fullname" />
-      <Price :id="this.productId" />
+      <Details/>
+      <Price :id="this.product.Id" />
     </template>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import Details from "./Details.vue";
 import Price from "./Price.vue";
 import Vue from "vue";
@@ -46,45 +47,34 @@ export default {
   props: {},
   data() {
     return {
-      productId: "",
       searchModel: "",
-      loaded: false,
-      name: "",
-      simplename: "",
-      fullname: ""
     };
   },
   methods: {
-    search() {
-      if (this.searchModel) {
-        this.$http.get("/api/product/" + this.searchModel).then(
-          response => {
-            this.name = response.body.Name;
-            this.simplename = response.body.SimpleName;
-            this.fullname = response.body.Fullname;
-            this.productId = response.body.Id;
-            this.loaded = true;
-            return response.body;
-          },
-          response => {
-            this.loaded = false;
-            console.error(response);
-          }
-        );
-      }
-    },
+    // search() {
+    //   if (this.searchModel) {
+    //     this.$store.dispatch('loadProduct', this.searchModel);
+    //   }
+    // },
     submit(e) {
-      this.search();
+      this.$store.dispatch('loadProduct', this.searchModel);
       e.preventDefault();
-    }
+    },
+    ...mapActions([
+      'loadProduct',
+    ])
   },
   mounted() {
     let productNumber = this.$route.params.productNumber;
     if (productNumber) {
       this.searchModel = productNumber;
-      this.search();
+      this.$store.dispatch('loadProduct', this.searchModel);
     }
-  }
+  },
+  computed: mapState({
+    product: state => state.product,
+    loaded: state => state.loaded,
+  }),
 };
 </script>
 
