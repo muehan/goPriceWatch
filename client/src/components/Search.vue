@@ -6,7 +6,7 @@
         Folgende Produkttypen werden gespeichert:
         <router-link to="/types">typen</router-link>
       </p>
-      <form class="col s12" @submit="submit">
+      <form class="col s12">
         <div class="row">
           <div class="input-field col offset-s4 s4">
             <input
@@ -51,29 +51,21 @@ export default {
     };
   },
   methods: {
-    // search() {
-    //   if (this.searchModel) {
-    //     this.$store.dispatch('loadProduct', this.searchModel);
-    //   }
-    // },
-    submit(e) {
-      this.$store.dispatch('loadProduct', this.searchModel);
-      e.preventDefault();
-    },
-    ...mapActions([
-      'loadProduct',
-    ])
+    ...mapActions({
+      loadProduct: 'search/loadProduct',
+    })
   },
   mounted() {
     let productNumber = this.$route.params.productNumber;
     if (productNumber) {
       this.searchModel = productNumber;
-      this.$store.dispatch('loadProduct', this.searchModel);
+      console.log('dispatch from mounted');
+      this.$store.dispatch('search/loadProduct', this.searchModel);
     }
   },
   computed: mapState({
-    product: state => state.product,
-    loaded: state => state.loaded,
+    product: state => state.search.product,
+    loaded: state => state.search.loaded,
   }),
 };
 </script>

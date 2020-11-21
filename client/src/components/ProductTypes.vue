@@ -5,7 +5,7 @@
         <li class="collection-header">
           <p>Folgende Produktegruppen können abgefragt werden:</p>
         </li>
-        <li v-for="type in types" :key="type" class="collection-item">
+        <li v-for="type in producttypes" :key="type" class="collection-item">
           <div>
             {{type.Name}} | {{type.Typeid}}
             <router-link :to="'/productsbytype/' + type.Id" class="secondary-content">
@@ -21,6 +21,7 @@
 <script>
 import Vue from "vue";
 import Resource from "vue-resource";
+import { mapState, mapActions } from 'vuex'
 Vue.use(Resource);
 
 export default {
@@ -33,21 +34,16 @@ export default {
     };
   },
   mounted() {
-    this.loadTypes();
+    this.loadProducttypes();
   },
   methods: {
-    loadTypes() {
-      this.$http.get("/api/producttype").then(
-        response => {
-          this.types = response.body;
-          return response.body;
-        },
-        response => {
-          console.error(response);
-        }
-      );
-    }
-  }
+    ...mapActions({
+      loadProducttypes: 'productType/loadProducttypes',
+    })
+  },
+  computed: mapState({
+    producttypes: state => state.productType.producttypes
+  })
 };
 </script>
 

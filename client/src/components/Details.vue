@@ -23,7 +23,7 @@ export default {
     // name: String
   },
   computed: mapState({
-    product: state => state.product
+    product: state => state.search.product
   }),
 };
 </script>
