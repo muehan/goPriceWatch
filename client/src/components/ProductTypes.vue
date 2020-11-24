@@ -19,10 +19,7 @@
 </template>
 
 <script>
-import Vue from "vue";
-import Resource from "vue-resource";
 import { mapState, mapActions } from 'vuex'
-Vue.use(Resource);
 
 export default {
   name: "ProductTypes",
@@ -30,7 +27,7 @@ export default {
   props: {},
   data() {
     return {
-      types: []
+      // types: []
     };
   },
   mounted() {

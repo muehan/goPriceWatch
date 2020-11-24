@@ -52,20 +52,20 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadProduct: 'search/loadProduct',
+      loadProduct: 'product/loadProduct',
     })
   },
   mounted() {
     let productNumber = this.$route.params.productNumber;
     if (productNumber) {
       this.searchModel = productNumber;
-      console.log('dispatch from mounted');
-      this.$store.dispatch('search/loadProduct', this.searchModel);
+      this.loadProduct(this.searchModel);
+      // this.$store.dispatch('product/loadProduct', this.searchModel);
     }
   },
   computed: mapState({
-    product: state => state.search.product,
-    loaded: state => state.search.loaded,
+    product: state => state.product.product,
+    loaded: state => state.product.loaded,
   }),
 };
 </script>

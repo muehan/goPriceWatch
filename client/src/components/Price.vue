@@ -104,7 +104,6 @@ export default {
     loadData(productId) {
       this.$http.get("/api/price/" + productId + "/" + this.daysToLoad).then(
         function(response) {
-          console.log(response.body);
           this.prices = response.body;
           this.fillData();
           this.minPrice = Math.min(...this.prices.map(x => x.Price));

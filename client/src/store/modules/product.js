@@ -3,6 +3,7 @@ import productApi from '../../api/productApi';
 const state = () => ({
     productId: "",
     product: {},
+    prices: [],
     error: "",
     loaded: false,
 })
@@ -15,6 +16,9 @@ const getters = {
     product: (state) => {
         return state.product
     },
+    prices: (state) => {
+        return state.prices
+    },
     // error: (state, getters, rootState) => {
     error: (state) => {
         return state.error
@@ -26,18 +30,27 @@ const getters = {
 
 const actions = {
     loadProduct({ commit }, productId) {
-        console.log(`action loadProduct with ${productId}`);
         commit('loadProduct', productId),
             productApi
             .loadProduct(productId)
             .then(response => response.json())
             .then(data => {
-                console.log(`loadProduct from api`);
-                console.log(data);
                 commit('productLoadedSuccess', data);
             })
             .catch((error) => {
                 commit('productLoadedFailed', error);
+            });
+    },
+    loadPrices({ commit }, productId) {
+        commit('loadPrices', productId),
+            productApi
+            .loadPriceFor(productId)
+            .then(response => response.json())
+            .then(data => {
+                commit('priceLoadedSuccess', data);
+            })
+            .catch((error) => {
+                commit('priceLoadedFailed', error);
             });
     }
 }
@@ -55,6 +68,16 @@ const mutations = {
     productLoadedFailed(state, error) {
         state.error = error;
         state.loaded = false;
+    },
+
+    loadPrices(state, productId) {
+        state.productId = productId;
+    },
+    priceLoadedSuccess(state, prices) {
+        state.product = prices;
+    },
+    priceLoadedFailed(state, error) {
+        state.error = error;
     }
 }
 

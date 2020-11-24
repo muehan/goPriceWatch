@@ -6,7 +6,8 @@ import Search from './components/Search.vue'
 import ProductTypes from './components/ProductTypes.vue'
 import ProductsByType from './components/ProductsByType.vue'
 
-Vue.config.productionTip = false
+Vue.config.devtools = true;
+Vue.config.productionTip = false;
 Vue.use(VueRouter)
 
 const routes = [
