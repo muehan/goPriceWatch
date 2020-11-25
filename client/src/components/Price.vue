@@ -40,91 +40,43 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
-import Vue from "vue";
-import Resource from "vue-resource";
-Vue.use(Resource);
-
 import LineChart from "./LineChart.js";
 
 export default {
   name: "Price",
-  props: {
-    id: String
-  },
+  props: { },
   components: {
     LineChart
   },
   data() {
     return {
-      daysToLoad: 30,
-      productId: this.id,
-      prices: [],
-      dates: [],
-      minPrice: 0,
-      maxPrice: 0,
-      datacollection: null,
       options: {
         responsive: true,
         maintainAspectRatio: false
       }
     };
   },
-  computed: {},
-  mounted() {
-    // this.fillData();
+  computed: {
+    ...mapGetters({
+      prices: 'product/prices',
+      minPrice: 'product/minPrice',
+      maxPrice: 'product/maxPrice',
+      pricesValues: 'product/pricesValues',
+      datacollection: 'product/datacollection',
+    }),
   },
+  mounted() { },
   methods: {
-    changeDaysToLoad(days) {
-      this.daysToLoad = days;
-      this.loadData(this.productId);
-    },
+    ...mapActions({
+      changeDaysToLoad: 'product/setDaysToLoad',
+    }),
     format_date(value) {
       if (value) {
         return moment(String(value)).format("YYYY-MM-DD");
       }
     },
-    fillData() {
-      this.datacollection = {
-        labels: this.prices.map(x =>
-          moment(String(x.Date)).format("YYYY-MM-DD")
-        ),
-        datasets: [
-          {
-            label: "Price",
-            backgroundColor: "rgba(153, 159, 255, 0.2)",
-            data: this.prices.map(x => x.Price)
-          }
-        ]
-      };
-    },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    },
-    loadData(productId) {
-      this.$http.get("/api/price/" + productId + "/" + this.daysToLoad).then(
-        function(response) {
-          console.log(response.body);
-          this.prices = response.body;
-          this.fillData();
-          this.minPrice = Math.min(...this.prices.map(x => x.Price));
-          this.maxPrice = Math.max(...this.prices.map(x => x.Price));
-        },
-        function(response) {
-          console.error(response);
-        }
-      );
-    }
-  },
-  watch: {
-    id: {
-      immediate: true,
-      handler(newValue, oldValue) {
-        console.log(oldValue + " - " + newValue);
-        this.loadData(newValue);
-        this.productId = newValue;
-      }
-    }
   },
   created: function() {}
 };

@@ -3,9 +3,9 @@
     <div class="col s8 offset-s2">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
-          <span class="card-title">{{simplename}}</span>
-          <p>{{name}}</p>
-          <p>{{fullname}}</p>
+          <span class="card-title">{{product.SimpleName}}</span>
+          <p>{{product.Name}}</p>
+          <p>{{product.Fullname}}</p>
         </div>
       </div>
     </div>
@@ -13,13 +13,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: "Details",
-  props: {
-    simplename: String,
-    fullname: String,
-    name: String
-  }
+  props: { },
+  computed: mapGetters({
+    product: 'product/product',
+  }),
 };
 </script>
 

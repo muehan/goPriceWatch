@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router';
+import VueRouter from 'vue-router'
+import store from './store'
 import Search from './components/Search.vue'
 import ProductTypes from './components/ProductTypes.vue'
 import ProductsByType from './components/ProductsByType.vue'
 
-Vue.config.productionTip = false
+Vue.config.devtools = true;
+Vue.config.productionTip = false;
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,5 +23,6 @@ const router = new VueRouter({
 
 new Vue({
     router,
+    store,
     render: h => h(App),
 }).$mount('#app')
