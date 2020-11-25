@@ -23,15 +23,15 @@
         </div>
       </form>
     </div>
-    <template v-if="this.loaded">
+    <template v-if="loaded">
       <Details/>
-      <Price :id="this.product.Id" />
+      <Price/>
     </template>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Details from "./Details.vue";
 import Price from "./Price.vue";
 import Vue from "vue";
@@ -63,9 +63,9 @@ export default {
       // this.$store.dispatch('product/loadProduct', this.searchModel);
     }
   },
-  computed: mapState({
-    product: state => state.product.product,
-    loaded: state => state.product.loaded,
+  computed: mapGetters({
+    product: 'product/product',
+    loaded: 'product/loaded',
   }),
 };
 </script>

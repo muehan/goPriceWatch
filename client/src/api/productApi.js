@@ -3,8 +3,8 @@ export default {
         return fetch(`/api/product/${productid}`);
     },
 
-    loadPriceFor(productId, daysToLoad) {
-        return fetch(`/api/price/${productId}/${daysToLoad}`);
+    loadPriceFor(id, daysToLoad) {
+        return fetch(`/api/price/${id}/${daysToLoad}`);
     },
 
     loadProductsByType(typeid) {
